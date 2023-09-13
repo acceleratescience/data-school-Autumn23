@@ -12,7 +12,6 @@ TODO Switching! The junctions don't switch, but some of the commented out code e
 import numpy as np
 import networkx as nx
 import scipy as sp
-np.random.seed(42)
 
 
 class MemristorSim:

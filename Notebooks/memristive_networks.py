@@ -1,6 +1,5 @@
 from reservoir import MemristorSim
 import numpy as np
-import matplotlib.pyplot as plt
 import networkx as nx
 from tqdm import tqdm
 
@@ -9,8 +8,6 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-
-from seeds import set_all_seeds
 
 
 simParams = {
@@ -26,24 +23,6 @@ simParams = {
         }
 
 
-def get_data(validation_size : float = 0.25, test_size : float = 0.25) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """Get the digits data and split into training, testing, validation sets
-
-    Args:
-        validation_size (float, optional): Proportion of validation data. Defaults to 0.25.
-        test_size (float, optional): Proportion of testing data. Defaults to 0.25.
-
-    Returns:
-        tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]: X_train, y_train, X_val, y_val, X_test, y_test
-    """
-    digits = load_digits()
-
-    X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=test_size)
-    X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=validation_size)
-
-    return X_train, y_train, X_val, y_val, X_test, y_test
-
-
 
 class MemristorModel:
     def __init__(self, N, v_min, v_max, n_outputs):
@@ -52,7 +31,7 @@ class MemristorModel:
         self.v_max = v_max
         self.n_outputs = n_outputs
 
-        self.W = self._create_adjacency_matrix(N)
+        self.W = self._create_adjacency_matrix(self.N)
         self.readout = LogisticRegression(solver='lbfgs', max_iter=1000)
         self.voltage_scaler = MinMaxScaler(feature_range=(self.v_min, self.v_max))
         self.readout_scaler = MinMaxScaler()
@@ -88,6 +67,8 @@ class MemristorModel:
 
         outputs_sel = outputs[:, 9::10, :]
         flattened_outputs = outputs_sel.reshape((outputs_sel.shape[0], outputs_sel.shape[1]*outputs_sel.shape[2]))
+
+        return flattened_outputs
     
 
     def fit(self, X : np.ndarray, y : np.ndarray) -> None:
@@ -117,6 +98,25 @@ class MemristorModel:
         return y_pred
     
 
-    def score(y_true, y_pred):
-        return accuracy_score(y_true, y_pred)
+def get_digits_data(validation_size : float = 0.25, test_size : float = 0.25) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Get the digits data and split into training, testing, validation sets
+
+    Args:
+        validation_size (float, optional): Proportion of validation data. Defaults to 0.25.
+        test_size (float, optional): Proportion of testing data. Defaults to 0.25.
+
+    Returns:
+        tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]: X_train, y_train, X_val, y_val, X_test, y_test
+    """
+    digits = load_digits()
+
+    X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=test_size)
+    X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=validation_size)
+
+    return X_train, y_train, X_val, y_val, X_test, y_test
+
+
+def score(y_true, y_pred):
+    return accuracy_score(y_true, y_pred)
+
 
