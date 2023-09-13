@@ -38,9 +38,12 @@ class MemristorSim:
             self.z_0 = np.random.normal(z_0, var*z_0, self.junctionCount)
 
 
-    def applyVoltage(self, voltageVector, dt, time, inputs, outputs, percolate=False):
+    def applyVoltage(self, voltageVector, outputs):
         # elif electrodeType == 'single':
         #     self.inputElectrodes, self.outputElectrodes = self._get_electrodes_single()
+        dt = 1
+        time = np.arange(0, len(voltageVector), 1)
+        inputs = voltageVector.shape[1]
 
         self.inputElectrodes = np.arange(0, inputs, 1, dtype=int)
         self.outputElectrodes = np.arange(inputs, outputs + inputs, 1, dtype=int)
