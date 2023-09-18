@@ -1,4 +1,4 @@
-from utils import SummaryStats, get_data
+from .utils import SummaryStats, get_data
 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
@@ -13,7 +13,7 @@ from joblib import dump
 
 from pathlib import Path
 
-from seeds import set_all_seeds
+from .seeds import set_all_seeds
 
 
 def get_train_test_split(folder):

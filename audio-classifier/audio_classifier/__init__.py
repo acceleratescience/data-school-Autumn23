@@ -1,4 +1,3 @@
-# from .seeds import *
+# from .seeds import set_all_seeds
 # from .tune import *
 # from .utils import *
-# from .cli import *

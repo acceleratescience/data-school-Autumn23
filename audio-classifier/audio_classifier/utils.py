@@ -62,7 +62,11 @@ class SummaryStats(BaseEstimator, TransformerMixin):
         Returns:
             ndarray: Spectrogram
         """
-        transform = T.MelSpectrogram(self.sr, normalized=True)
+        transform = T.MelSpectrogram(sample_rate=self.sr,
+                                     n_fft=self.n_fft,
+                                     hop_length=self.hop_length,
+                                     n_mels=self.n_mels,
+                                     normalized=True)
         S = transform(torch.from_numpy(audio).type(torch.float))
         S = 10 * torch.log10(S)
         return S.numpy()
