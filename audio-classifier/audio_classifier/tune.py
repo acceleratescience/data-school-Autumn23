@@ -1,4 +1,8 @@
-from .utils import SummaryStats, get_data
+from .utils import get_data
+from .summary_stats import SummaryStats
+from .seeds import set_all_seeds
+
+import numpy as np
 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
@@ -6,14 +10,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
-import numpy as np
 from sklearn.metrics import accuracy_score
 
 from joblib import dump
-
-from pathlib import Path
-
-from .seeds import set_all_seeds
 
 
 def get_train_test_split(folder):
