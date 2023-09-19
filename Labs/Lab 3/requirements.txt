@@ -1,0 +1,6 @@
+scipy
+numpy
+tqdm
+pandas
+ipykernel
+python-igraph
