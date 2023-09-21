@@ -7,7 +7,9 @@ import torchaudio.transforms as T
 
 from scipy.io.wavfile import read
 
-from audio_classifier.utils import SummaryStats, load_audio_file
+from audio_classifier.summary_stats import SummaryStats
+
+from audio_classifier.utils import load_audio_file
 
 import unittest
 import tempfile
