@@ -4,3 +4,4 @@ tqdm
 pandas
 ipykernel
 python-igraph
+matplotlib
