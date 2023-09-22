@@ -41,6 +41,7 @@ audio-classifier
 ├── audio_classifier
 │   ├── __init__.py
 │   ├── seeds.py
+│   ├── summary_stats.py
 │   ├── tune.py
 │   └── utils.py
 ├── recordings
@@ -56,7 +57,9 @@ The `seeds.py` file is just the same file we used in the first and second labs. 
 
 The important thing to note here is that the `SummaryStats` class is completely separate from the rest of the project. That way, people are free to use the transformation on their own data with their own parameters and use a completely different downstream model. It's also easy to modify the existing functions to collect additional statistics, or to even build new methods that transform the data in some other way.
 
-Another thing to note is that we could create a data class from the stuff in the `utils.py` file. Your data pipeline can be very model-dependent. For example, we could treat the spectrograms like images, and try and use a convolutional neural network on them. This would involve reshaping in some way so that they are all the same size, and then creating a custom torch dataset and dataloader. If you can get the hang of creating custom transformations for scikit-learn, creating torch datasets is only a small step - we can even keep some of the core class methods.
+Another thing to note is that we could create a data class from the stuff in the `utils.py` file.
+
+Your data pipeline can be very model-dependent. For example, we could treat the spectrograms like images, and try and use a convolutional neural network on them. This would involve reshaping in some way so that they are all the same size, and then creating a custom torch dataset and dataloader. If you can get the hang of creating custom transformations for scikit-learn, creating torch datasets is only a small step - we can even keep some of the core class methods.
 
 ## Testing
 How do we know that everything is working as intended? Suppose for example the `generate_mel_spectrogram` class method was the following:
@@ -71,5 +74,10 @@ def generate_mel_spectrogram(self, audio : ndarray) -> ndarray:
 
 What is the problem with this?
 
+As with the testing Lab, we again use unittest. Most of our functions and methods just have one job, so we can write relatively simple functions to test them. But how do we test reading and writing files? If we look at the `test_audio_functions.py` file, we see two methods called `setUp` and `tearDown`. We can create dummy folders and populate them with fake data so that we can test reading and writing data.
 
-Two popular testing libraries are unittest and pytest. Here we use unittest. Most of our functions and methods just have one job, so we can write relatively simple functions to test them.
+We can also see this in the `test_hyper_tuning.py` file, where we have to test writing and loading the best model found by the optimization process.
+
+Now that everything is written, where do we go from here? It's important to write a brief overview of how to reproduce your results. Usually this is done in the README file, or in a Jupyter notebook. Ideally, you would include your entire data analysis via a notebook. So we have added a file called `audio_classification.ipynb`, that other researchers can run.
+
+It is also possible to publish our work...
