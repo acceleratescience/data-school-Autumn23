@@ -2,7 +2,7 @@
 name = "audio-classifier"
 version = "0.1.0"
 description = ""
-authors = ["rkdan <rkd43@cam.ac.uk>"]
+authors = ["accelerate science"]
 readme = "README.md"
 packages = [{include = "audio_classifier"}]
 
